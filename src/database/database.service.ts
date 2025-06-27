@@ -1,13 +1,13 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import mysql, { Query, RowDataPacket } from 'mysql2';
+import { Connection, createConnection, RowDataPacket } from 'mysql2/promise';
 
 @Injectable()
 export class DatabaseService implements OnModuleInit, OnModuleDestroy {
-  private connection: mysql.Connection;
+  private connection: Connection;
 
   async onModuleInit() {
     try {
-      this.connection = await mysql.createConnection({
+      this.connection = await createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
@@ -15,7 +15,8 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
       });
       console.log('Conexión a base de datos realizada exitosamente');
     } catch (err) {
-      console.error('Error al conectar con la base de datos: ');
+      console.error('Error al conectar con la base de datos:');
+      console.log(err);
     }
   }
 
@@ -24,8 +25,8 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
     console.log('Conexión a base de datos cerrada');
   }
 
-  async select(sql: string, params?: any[]): Promise<Query> {
-    const rows = this.connection.execute<RowDataPacket[]>(sql, params);
+  async select(sql: string, params?: any[]): Promise<RowDataPacket[]> {
+    const [rows] = await this.connection.execute<RowDataPacket[]>(sql, params);
     return rows;
   }
 }
