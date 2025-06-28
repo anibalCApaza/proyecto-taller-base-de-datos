@@ -12,6 +12,8 @@ async function bootstrap() {
   nunjucks.configure(join(__dirname, '..', 'views'), {
     autoescape: true,
     express: app,
+    watch: true,
+    noCache: true,
   });
 
   app.setViewEngine('html');
