@@ -1,4 +1,5 @@
 import { Controller, Get, Render } from '@nestjs/common';
+
 import { DatabaseService } from 'src/database/database.service';
 
 @Controller('reports')
@@ -9,9 +10,10 @@ export class ReportsController {
   @Render('index')
   async prueba() {
     const data = await this.databaseService.select('select * from usuario;');
-
+    const jsonData = JSON.stringify(data);
     return {
       data,
+      jsonData,
     };
   }
 }
