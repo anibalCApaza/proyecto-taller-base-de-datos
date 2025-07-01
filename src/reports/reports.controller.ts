@@ -1,4 +1,11 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  ParseIntPipe,
+  Post,
+  Render,
+} from '@nestjs/common';
 
 import { DatabaseService } from 'src/database/database.service';
 
@@ -8,8 +15,43 @@ export class ReportsController {
 
   @Get()
   @Render('index')
-  async prueba() {
-    const data = await this.databaseService.select('select * from usuario;');
+  async getIndex() {
+    const res = await this.databaseService.executeQuery('show tables;');
+    const tables = res.map((row) => Object.values(row)[0]);
+    const jsonData = JSON.stringify(tables);
+    return {
+      tables,
+    };
+  }
+
+  @Post()
+  @Render('index')
+  async postIndex(@Body('nameTable') nameTable: string) {
+    const res = await this.databaseService.executeQuery('show tables;');
+    const tables = res.map((row) => Object.values(row)[0]);
+
+    const fields = await this.databaseService.executeQuery(
+      `describe ${nameTable};`,
+    );
+
+    const data = await this.databaseService.executeQuery(
+      `SELECT * FROM ${nameTable};`,
+    );
+
+    return {
+      tables,
+      nameTable,
+      data,
+      fields,
+    };
+  }
+
+  @Get('ejercicio')
+  @Render('index')
+  async ejercicio1(@Body('id') id) {
+    console.log(id);
+
+    const data = await this.databaseService.executeQuery('call ejemplo();');
     const jsonData = JSON.stringify(data);
     return {
       data,

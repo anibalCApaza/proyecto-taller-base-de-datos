@@ -1,10 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Este es un ejemplo de prueba OWO123</h1>
-    <p>Datos: {{ data }}</p>
-    <p>Datos en formato json: {{ jsonData }}</p>
-    <ul>
-        {% for row in data %}<li>{{ row.nombre }}</li>{% endfor %}
-    </ul>
-    <p>hola ;3, viva la vida 123</p>
+    <h1>Visualizar Datos</h1>
+    <form method="POST" class="p-4 border rounded shadow-sm bg-light">
+        <div class="mb-3">
+            <label for="nameTable" class="form-label fw-bold text-uppercase">Seleccionar tabla</label>
+            <select id="nameTable" name="nameTable" class="form-select">
+                {% for table in tables %}
+                    <option class="text-capitalize"
+                            value="{{ table }}"
+                            {% if nameTable == table %}selected{% endif %}>{{ table }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">Obtener datos</button>
+        </div>
+    </form>
+    {% if data %}
+        <br>
+        <h3 class="text-center text-uppercase">TABLA: {{ nameTable }}</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    {% for field in fields %}<th>{{ field.Field }}</th>{% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        {% for field in fields %}<td>{{ row[field.Field] }}</td>{% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock content %}

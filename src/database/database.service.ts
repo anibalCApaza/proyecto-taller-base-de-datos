@@ -25,7 +25,7 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
     console.log('Conexión a base de datos cerrada');
   }
 
-  async select(sql: string, params?: any[]): Promise<RowDataPacket[]> {
+  async executeQuery(sql: string, params?: any[]): Promise<RowDataPacket[]> {
     const [rows] = await this.connection.execute<RowDataPacket[]>(sql, params);
     return rows;
   }
