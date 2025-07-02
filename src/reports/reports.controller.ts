@@ -41,13 +41,42 @@ export class ReportsController {
 
   @Get('reporte3')
   @Render('reporte3')
-  async reporte3() {
-    const branch = await this.databaseService.executeQuery(
-      'SELECT s.direccion from sucursal s;',
+  async getReporte3() {
+    const branchs = await this.databaseService.executeQuery(
+      'select s.id_sucursal, s.direccion from sucursal s;',
     );
-    console.log(branch);
     return {
-      branch,
+      branchs,
+    };
+  }
+
+  @Post('reporte3')
+  @Render('reporte3')
+  async postrReporte3(
+    @Body('id_sucursal') idSucursal: string,
+    @Body('tipo') tipo: string,
+    @Body('metodo_pago') metodoPago: string,
+    @Body('fecha_entrada') fechaEntrada: string,
+  ) {
+    const branchs = await this.databaseService.executeQuery(
+      'select s.id_sucursal, s.direccion from sucursal s;',
+    );
+    fechaEntrada = fechaEntrada + '-01';
+    const [data] = await this.databaseService.executeQuery(
+      `call procedimiento3(${idSucursal}, '${tipo}', '${metodoPago}', '${fechaEntrada}');`,
+    );
+
+    let suma = data.reduce(
+      (acum, item) => acum + parseFloat(item.precio_con_descuento),
+      0,
+    );
+    suma = Math.round(suma * 100) / 100;
+    console.log(suma);
+
+    return {
+      branchs,
+      data,
+      suma,
     };
   }
 

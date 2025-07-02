@@ -1,5 +1,89 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Reporte de ingresos mensuales: Detalles de ingresos por paquetes promociones y servicios individuales</h1>
-    <h3></h3>
+    <h1>Reporte de ingresos mensuales</h1>
+    <h3>Por sucursal, tipo de servicio y canal de pago(efectivo, QR, tarjeta)</h3>
+    <form method="POST" class="p-4 border rounded shadow-sm bg-light">
+        <div class="row">
+            <div class="col ">
+                <label for="branch" class="form-label fw-bold text-uppercase">Sucursal</label>
+                <select class="form-control" name="id_sucursal">
+                    <option value="0">Todos</option>
+                    {% for branch in branchs %}<option value="{{ branch.id_sucursal }}">{{ branch.direccion }}</option>{% endfor %}
+                    <option value="0">Todos</option>
+                </select>
+            </div>
+            <div class="col ">
+                <label class ="form-label fw-bold text-uppercase" for="type">Tipo</label>
+                <select class="form-control " name="tipo">
+                    <option value="todos">Todos</option>
+                    <option value="mantenimiento">Mantenimiento</option>
+                    <option value="lavado">Lavado</option>
+                </select>
+            </div>
+            <div class="col ">
+                <label class ="form-label fw-bold text-uppercase" for="type">Método de pago</label>
+                <select class="form-control " name="metodo_pago">
+                    <option value="todos">Todos</option>
+                    <option value="efectivo">Efectivo</option>
+                    <option value="transferencia">QR</option>
+                    <option value="tarjeta">Tarjeta</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class ="form-label fw-bold text-uppercase" for="type">
+                    Mes
+                    <br>
+                </label>
+                <input class="form-control" type="month" name="fecha_entrada" required>
+            </div>
+        </div>
+        <br>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">Generar reporte</button>
+        </div>
+    </form>
+    {% if data %}
+        <br />
+        <h3 class="text-center text-uppercase">INFORMACIóN OBTENIDA</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID SERVICIO</th>
+                    <th>DETALLE</th>
+                    <th>PRECIO</th>
+                    <th>TIPO</th>
+                    <th>PLACA VEHíCULO</th>
+                    <th>FECHA</th>
+                    <th>MéTODO DE PAGO</th>
+                    <th>DESCUENTO DE PAQUETE</th>
+                    <th>DESCUENTO DE PROMOCIóN</th>
+                    <th>PRECIO CON DESCUENTO APLICADO</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        <td>{{ row.id_servicio }}</td>
+                        <td>{{ row.detalle }}</td>
+                        <td>{{ row.precio }} Bs.</td>
+                        <td>{{ row.tipo }}</td>
+                        <td>{{ row.placa_vehiculo }}</td>
+                        <td>{{ row.fecha }}</td>
+                        <td>{{ row.metodo_pago }}</td>
+                        <td>{{ row.descuento_paquete }} %</td>
+                        <td>{{ row.descuento_promocion }} %</td>
+                        <td>{{ row.precio_con_descuento }} Bs.</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="9" class="text-end">
+                        <strong>Ingresos:</strong>
+                    </td>
+                    <td>
+                        <strong>{{ suma }} Bs.</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock content %}
