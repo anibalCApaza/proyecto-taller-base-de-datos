@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <h1>REPORTE 4</h1>
+    </div>
+    <h2>Reporte de Comisiones por Asesor</h2>
+    <h4>Comparativas entre asesores por periodo</h4>
+    <form method="POST" class="p-4 border rounded shadow-sm bg-light">
+        <div class="mb-3">
+            <label for="fecha_ini" class="form-label fw-bold text-uppercase">Fecha Inicial</label>
+            <input type="date" name="fecha_ini" />
+        </div>
+        <div class="mb-3">
+            <label for="fecha_fin" class="form-label fw-bold text-uppercase">Fecha Final</label>
+            <input type="date" name="fecha_fin" />
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">Realizar comparativa</button>
+        </div>
+    </form>
+    {% if data %}
+        <br />
+        <h3 class="text-center text-uppercase">INFORMACIóN OBTENIDA</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>CARNET</th>
+                    <th>APELLIDO</th>
+                    <th>NOMBRE</th>
+                    <th>PAQUETES VENDIDOS</th>
+                    <th>GANANCIA ASESOR</th>
+                    <th>GANANCIA NETA EMPRESA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        <td>{{ row.carnet }}</td>
+                        <td>{{ row.apellido }}</td>
+                        <td>{{ row.nombre }}</td>
+                        <td>{{ row.paquetes_vendidos }}</td>
+                        <td>{{ row.ganancia_asesor }}</td>
+                        <td>{{ row.ganancia_neta_empresa }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock content %}

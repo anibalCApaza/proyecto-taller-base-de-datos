@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  ParseIntPipe,
-  Post,
-  Render,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Render } from '@nestjs/common';
 
 import { DatabaseService } from 'src/database/database.service';
 
@@ -56,6 +49,28 @@ export class ReportsController {
     return {
       branch,
     };
+  }
+
+  @Get('reporte4')
+  @Render('reporte4')
+  async getReporte4() {
+    return {};
+  }
+
+  @Post('reporte4')
+  @Render('reporte4')
+  async postReporte4(
+    @Body('fecha_ini') fechaIni: string,
+    @Body('fecha_fin') fechaFin: string,
+  ) {
+    const [data] = await this.databaseService.executeQuery(
+      `call procedimiento4('${fechaIni}', '${fechaFin}');`,
+    );
+
+    console.log(`${fechaIni}  ${fechaFin}`);
+    console.log(data);
+
+    return { data };
   }
 
   @Get('reporte5')
