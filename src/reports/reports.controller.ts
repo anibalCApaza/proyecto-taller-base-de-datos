@@ -46,6 +46,37 @@ export class ReportsController {
     };
   }
 
+  @Get('reporte3')
+  @Render('reporte3')
+  async reporte3() {
+    const branch = await this.databaseService.executeQuery(
+      'SELECT s.direccion from sucursal s;',
+    );
+    console.log(branch);
+    return {
+      branch,
+    };
+  }
+
+  @Get('reporte5')
+  @Render('reporte5')
+  async getReporte5() {
+    return {};
+  }
+
+  @Post('reporte5')
+  @Render('reporte5')
+  async postReporte5(@Body('placa') placa: String) {
+    const [data] = await this.databaseService.executeQuery(
+      `call procedimiento5('${placa}')`,
+    );
+    console.log(data);
+
+    return {
+      data,
+    };
+  }
+
   @Get('ejercicio')
   @Render('index')
   async ejercicio1(@Body('id') id) {

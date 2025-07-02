@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <h1>REPORTE 5</h1>
+    </div>
+    <h2>Reporte de vehículos atendidos</h2>
+    <h4>Historial de servicios por placa</h4>
+    <form method="POST" class="p-4 border rounded shadow-sm bg-light">
+        <div class="mb-3">
+            <label for="nameTable" class="form-label fw-bold text-uppercase">Placa vehículo</label>
+            <input type="text"
+                   name="placa"
+                   placaceholder="Ingrese la placa del vehículo">
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">Buscar servicios del vehículo</button>
+        </div>
+    </form>
+    {% if data %}
+        <br>
+        <h3 class="text-center text-uppercase">INFORMACIóN OBTENIDA</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID SERVICIO</th>
+                    <th>HORARIO</th>
+                    <th>DETALLE</th>
+                    <th>PRECIO</th>
+                    <th>TIPO</th>
+                    <th>ESTADO</th>
+                    <th>ID PAQUETE</th>
+                    <th>ID SUCURSAL</th>
+                    <th>ID PROMOCIóN</th>
+                    <th>ID RESERVACIóN</th>
+                    <th>ID PAGO</th>
+                    <th>PLACA VEHICULO</th>
+                    <th>CARNET_OPERARIO</th>
+                    <th>FECHA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        <td>{{ row.id_servicio }}</td>
+                        <td>{{ row.horario }}</td>
+                        <td>{{ row.detalle }}</td>
+                        <td>{{ row.precio }}</td>
+                        <td>{{ row.tipo }}</td>
+                        <td>{{ row.estado }}</td>
+                        <td>{{ row.id_paquete }}</td>
+                        <td>{{ row.id_sucursal }}</td>
+                        <td>{{ row.id_promocion }}</td>
+                        <td>{{ row.id_reservacion }}</td>
+                        <td>{{ row.id_pago }}</td>
+                        <td>{{ row.placa_vehiculo }}</td>
+                        <td>{{ row.carnet_operario }}</td>
+                        <td>{{ row.fecha }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock content %}
