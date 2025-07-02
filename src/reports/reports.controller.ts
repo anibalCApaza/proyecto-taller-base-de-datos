@@ -39,6 +39,27 @@ export class ReportsController {
     };
   }
 
+  @Get('reporte1')
+  @Render('reporte1')
+  async getReporte1() {
+    return {};
+  }
+
+  @Post('reporte1')
+  @Render('reporte1')
+  async postReporte1(@Body('estado') estado: string) {
+    const [data] = await this.databaseService.executeQuery(
+      `call procedimiento1('${estado}');`,
+    );
+    return { data };
+  }
+
+  @Get('reporte2')
+  @Render('reporte2')
+  async getReporte2() {
+    return {};
+  }
+
   @Get('reporte3')
   @Render('reporte3')
   async getReporte3() {
@@ -71,7 +92,6 @@ export class ReportsController {
       0,
     );
     suma = Math.round(suma * 100) / 100;
-    console.log(suma);
 
     return {
       branchs,
