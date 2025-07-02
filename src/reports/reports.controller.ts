@@ -60,6 +60,17 @@ export class ReportsController {
     return {};
   }
 
+  @Post('reporte2')
+  @Render('reporte2')
+  async postReporte2(@Body('estado') estado: string) {
+    const [data] = await this.databaseService.executeQuery(
+      `call procedimiento2('${estado}');`,
+    );
+    console.log(data);
+
+    return { data };
+  }
+
   @Get('reporte3')
   @Render('reporte3')
   async getReporte3() {

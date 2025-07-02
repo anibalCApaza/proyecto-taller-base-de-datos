@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <h1>REPORTE 2</h1>
+    </div>
+    <h2>
+        Reporte de Pagos Pendientes y Reservas
+    </h1>
+    <h4>Reservas confirmadas y no confirmadas, con sus respectivos detalles.</h4>
+    <form method="POST" class="p-4 border rounded shadow-sm bg-light">
+        <div class="row">
+            <div class="col">
+                <label class ="form-label fw-bold text-uppercase" for="estado">Estado de confirmación</label>
+                <select class="form-control " name="estado">
+                    <option value="todos">Todos</option>
+                    <option value="confirmado">Confirmado</option>
+                    <option value="no confirmado">No Confirmado</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">Generar reporte</button>
+        </div>
+    </form>
+    {% if data %}
+        <br />
+        <h3 class="text-center text-uppercase">INFORMACIóN OBTENIDA</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID RESERVACIóN</th>
+                    <th>TIPO RESERVACíON</th>
+                    <th>FECHA</th>
+                    <th>CONFIRMACIóN</th>
+                    <th>ID SERVICIO</th>
+                    <th>TIPO SERVICIO</th>
+                    <th>ESTADO SERVICIO</th>
+                    <th>PRECIO</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        <td>{{ row.id_reservacion }}</td>
+                        <td>{{ row.tipo_reservacion }}</td>
+                        <td>{{ row.fecha }}</td>
+                        <td>{{ row.confirmado }}</td>
+                        <td>{{ row.id_servicio }}</td>
+                        <td>{{ row.tipo_servicio }}</td>
+                        <td>{{ row.estado_servicio }}</td>
+                        <td>{{ row.precio }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock content %}
